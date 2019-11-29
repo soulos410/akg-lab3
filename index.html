@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+    <title>three.js webgl - geometry - cube</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            color: #ffffff;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+            font-weight: bold;
+            background-color: #000000;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        #info {
+            color: #fff;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            padding: 5px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./three.js"></script>
+    <script>
+        let camera;
+        let scene;
+        let renderer;
+        let material;
+        let tmp;
+        let dash = 1;
+        let vectors = [];
+
+        init();
+
+        function init() {
+            camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerHeight / 2, window.innerWidth / 2, window.innerHeight / -2, 1, 10000);
+
+            camera.position.z = 800;
+            camera.position.y = 200;
+            camera.position.x = 200;
+
+            scene = new THREE.Scene();
+
+            camera.lookAt(scene.position);
+            material = new THREE.LineDashedMaterial({
+                color: 0xffffff,
+                dashSize: dash,
+                gapSize: 0.00001
+            });
+
+            tmp = new THREE.Geometry();
+            tmp.vertices.push(new THREE.Vector3(0, 0, 0));
+            tmp.vertices.push(new THREE.Vector3(0, 0, 800));
+            tmp.computeLineDistances();
+            vectors[0] = new THREE.Line(tmp, material);
+            scene.add(vectors[0]);
+
+            tmp = new THREE.Geometry();
+            tmp.vertices.push(new THREE.Vector3(0, 0, 0));
+            tmp.vertices.push(new THREE.Vector3(0, 400, 0));
+            tmp.computeLineDistances();
+            vectors[1] = new THREE.Line(tmp, material);
+            scene.add(vectors[1]);
+
+            tmp = new THREE.Geometry();
+            tmp.vertices.push(new THREE.Vector3(0, 0, 0));
+            tmp.vertices.push(new THREE.Vector3(400, 0, 0));
+            tmp.computeLineDistances();
+            vectors[2] = new THREE.Line(tmp, material);
+            scene.add(vectors[2]);
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+    </script>
+
+</body>
+
+</html>
